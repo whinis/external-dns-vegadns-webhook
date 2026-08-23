@@ -14,8 +14,8 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/EfficientIP-Labs/external-dns-efficientip-webhook/cmd/webhook/init/configuration"
-	"github.com/EfficientIP-Labs/external-dns-efficientip-webhook/pkg/webhook"
+	"github.com/whinis/external-dns-vegadns-webhook/cmd/webhook/init/configuration"
+	"github.com/whinis/external-dns-vegadns-webhook/pkg/webhook"
 )
 
 // Init server initialization function

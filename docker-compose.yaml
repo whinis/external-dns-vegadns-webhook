@@ -1,7 +1,7 @@
 version: "3"
 services:
-  external-dns-efficientip:
-    image: efficientip/external-dns-efficientip:latest
+  external-dns-VegasDNS:
+    image: VegasDNS/external-dns-VegasDNS:latest
     ports:
       - "8888:8888/tcp" # Service port
     environment:

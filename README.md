@@ -1,37 +1,33 @@
-# external-dns-efficientip-webhook
+# external-dns-VegasDNS-webhook
 
-EfficientIP provider based on in-tree provider for ExternalDNS. Supported records:
+VegasDNS provider based on in-tree provider for ExternalDNS. Supported records:
 
 | Record Type | Status     |
 |-------------|------------|
 | A           | supported  |
 | CNAME       | supported  |
 | TXT         | supported  |
-
+| AAAA        | supported  |
 
 ## Quick start
 
 To run the provider, you must provide the following Environment Variables:
 
-**EfficientIP Environment Variables**:
+**VegasDNS Environment Variables**:
 
 | Environment Variable   | Default value | Required |
 |------------------------|---------------|----------|
-| EIP_HOST               | localhost     | true     |
-| EIP_PORT               | 443           | true     |   
-| EIP_USER               |               | false    |
-| EIP_PASSWORD           |               | false    |
-| EIP_TOKEN              |               | false    |
-| EIP_SECRET             |               | false    |
-| EIP_SMART              |               | true     |
-| EIP_VIEW               |               | false    |
-| EIP_SSL_VERIFY         | true          | false    |
-| EIP_DRY_RUN            | false         | false    |
-| EIP_DEFAULT_TTL        | 300           | false    |
+| VEGASDNS_URL           | localhost     | true     |
+| VEGASDNS_TOKEN         |               | true     |   
+| VEGASDNS_SECRET        |               | true     |
+| VEGASDNS_MAX_RESULTS   | 1500          | false    |
+| VEGASDNS_SSL_VERIFY    | true          | false    |
+| VEGASDNS_DRY_RUN       | false         | false    |
+| VEGASDNS_DEFAULT_TTL   | 300           | false    |
 
-Note: The APi authentication requires either EIP_USER/EIP_PASSWORD or EIP_TOKEN/EIP_SECRET.
+Note: The APi authentication requires either VEGASDNS_TOKEN/VEGASDNS_SECRET.
 
-**external-dns-efficientip-webhook Environment Variables**:
+**external-dns-VegasDNS-webhook Environment Variables**:
 
 | Environment Variable           | Default value | Required |
 |--------------------------------|---------------|----------|
@@ -50,7 +46,7 @@ Note: The APi authentication requires either EIP_USER/EIP_PASSWORD or EIP_TOKEN/
 
 To run provider in a local environment, you must provide all required settings through environment variables.
 To run locally, set `SERVER_HOST` to `localhost`, otherwise leave it at `0.0.0.0`.
-EfficientIP Provider is a simple web server with several clearly defined routers:
+VegasDNS Provider is a simple web server with several clearly defined routers:
 
 | Route            | Method |
 |------------------|--------|

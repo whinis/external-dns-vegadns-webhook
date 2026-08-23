@@ -1,6 +1,6 @@
 SHELL := bash
 
-ARTIFACT_NAME := external-dns-efficientip-webhook
+ARTIFACT_NAME := external-dns-VegasDNS-webhook
 
 TESTPARALLELISM := 4
 

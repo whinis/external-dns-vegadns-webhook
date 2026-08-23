@@ -1,17 +1,17 @@
-module github.com/EfficientIP-Labs/external-dns-efficientip-webhook
+module github.com/whinis/external-dns-vegadns-webhook
 
 go 1.24.0
 
 require (
 	github.com/caarlos0/env/v11 v11.2.2
-	github.com/efficientip-labs/solidserver-go-client v1.8.4-1
 	github.com/go-chi/chi/v5 v5.2.2
 	github.com/sirupsen/logrus v1.9.3
+	github.com/whinis/vegadns v0.0.0-20260822041707-0eefa1df4ecf
 	sigs.k8s.io/external-dns v0.14.2
 )
 
 require (
-	github.com/aws/aws-sdk-go v1.55.5 // indirect
+	github.com/aws/aws-sdk-go v1.53.3 // indirect
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
@@ -23,7 +23,6 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
-	golang.org/x/crypto v0.45.0 // indirect
 	golang.org/x/net v0.47.0 // indirect
 	golang.org/x/sys v0.38.0 // indirect
 	golang.org/x/text v0.31.0 // indirect

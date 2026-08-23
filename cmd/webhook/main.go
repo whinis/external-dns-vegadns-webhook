@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 
-	"github.com/EfficientIP-Labs/external-dns-efficientip-webhook/cmd/webhook/init/configuration"
-	"github.com/EfficientIP-Labs/external-dns-efficientip-webhook/cmd/webhook/init/dnsprovider"
-	"github.com/EfficientIP-Labs/external-dns-efficientip-webhook/cmd/webhook/init/logging"
-	"github.com/EfficientIP-Labs/external-dns-efficientip-webhook/cmd/webhook/init/server"
-	"github.com/EfficientIP-Labs/external-dns-efficientip-webhook/pkg/webhook"
 	log "github.com/sirupsen/logrus"
+	"github.com/whinis/external-dns-vegadns-webhook/cmd/webhook/init/configuration"
+	"github.com/whinis/external-dns-vegadns-webhook/cmd/webhook/init/dnsprovider"
+	"github.com/whinis/external-dns-vegadns-webhook/cmd/webhook/init/logging"
+	"github.com/whinis/external-dns-vegadns-webhook/cmd/webhook/init/server"
+	"github.com/whinis/external-dns-vegadns-webhook/pkg/webhook"
 )
 
 const banner = `
@@ -17,7 +17,7 @@ const banner = `
    / __/  / // /_/ /
   / /____/ // ____/ 
  /_____/___/_/      
- external-dns-efficientip-webhook
+ external-dns-VegasDNS-webhook
  version: %s (%s)
 `
 

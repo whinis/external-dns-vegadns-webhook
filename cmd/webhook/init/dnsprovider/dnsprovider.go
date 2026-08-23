@@ -5,9 +5,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/EfficientIP-Labs/external-dns-efficientip-webhook/cmd/webhook/init/configuration"
-	"github.com/EfficientIP-Labs/external-dns-efficientip-webhook/internal/efficientip"
 	"github.com/caarlos0/env/v11"
+	"github.com/whinis/external-dns-vegadns-webhook/cmd/webhook/init/configuration"
+	"github.com/whinis/external-dns-vegadns-webhook/internal/VegasDNS"
 	"sigs.k8s.io/external-dns/endpoint"
 	"sigs.k8s.io/external-dns/provider"
 
@@ -17,7 +17,7 @@ import (
 // nolint: revive
 func Init(config configuration.Config) (provider.Provider, error) {
 	var domainFilter endpoint.DomainFilter
-	createMsg := "Creating EfficientIP provider with "
+	createMsg := "Creating VegasDNS provider with "
 
 	if config.RegexDomainFilter != "" {
 		createMsg += fmt.Sprintf("regexp domain filter: '%s', ", config.RegexDomainFilter)
@@ -44,18 +44,18 @@ func Init(config configuration.Config) (provider.Provider, error) {
 	}
 	log.Info(createMsg)
 
-	eipConfig := efficientip.EfficientIPConfig{}
-    if err := env.Parse(&eipConfig); err != nil {
-        return nil, fmt.Errorf("reading configuration failed: %v", err)
-    } else {
-        if eipConfig.Token == "" || eipConfig.Secret == "" {
-            if eipConfig.Username == "" || eipConfig.Password == "" {
-                return nil, fmt.Errorf("missing authentication credentials. Login/password or access token/secret are required")
-            }
-        }
-    }
+	eipConfig := VegasDNS.VegasDNSConfig{}
+	if err := env.Parse(&eipConfig); err != nil {
+		return nil, fmt.Errorf("reading configuration failed: %v", err)
+	} else {
+		if eipConfig.Token == "" || eipConfig.Secret == "" {
+			if eipConfig.Username == "" || eipConfig.Password == "" {
+				return nil, fmt.Errorf("missing authentication credentials. Login/password or access token/secret are required")
+			}
+		}
+	}
 	eipConfig.FQDNRegEx = config.RegexDomainFilter
 	eipConfig.NameRegEx = config.RegexNameFilter
 
-	return efficientip.NewEfficientIPProvider(&eipConfig, domainFilter)
+	return VegasDNS.NewVegasDNSProvider(&eipConfig, domainFilter)
 }
