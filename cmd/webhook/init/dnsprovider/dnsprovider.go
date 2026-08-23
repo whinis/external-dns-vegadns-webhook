@@ -7,7 +7,7 @@ import (
 
 	"github.com/caarlos0/env/v11"
 	"github.com/whinis/external-dns-vegadns-webhook/cmd/webhook/init/configuration"
-	"github.com/whinis/external-dns-vegadns-webhook/internal/VegasDNS"
+	VegasDNS "github.com/whinis/external-dns-vegadns-webhook/internal/vegadns"
 	"sigs.k8s.io/external-dns/endpoint"
 	"sigs.k8s.io/external-dns/provider"
 
@@ -44,18 +44,16 @@ func Init(config configuration.Config) (provider.Provider, error) {
 	}
 	log.Info(createMsg)
 
-	eipConfig := VegasDNS.VegasDNSConfig{}
-	if err := env.Parse(&eipConfig); err != nil {
+	vdnsConfig := VegasDNS.VegasDNSConfig{}
+	if err := env.Parse(&vdnsConfig); err != nil {
 		return nil, fmt.Errorf("reading configuration failed: %v", err)
 	} else {
-		if eipConfig.Token == "" || eipConfig.Secret == "" {
-			if eipConfig.Username == "" || eipConfig.Password == "" {
-				return nil, fmt.Errorf("missing authentication credentials. Login/password or access token/secret are required")
-			}
+		if vdnsConfig.Token == "" || vdnsConfig.Secret == "" {
+			return nil, fmt.Errorf("missing authentication credentials. access token/secret are required")
 		}
 	}
-	eipConfig.FQDNRegEx = config.RegexDomainFilter
-	eipConfig.NameRegEx = config.RegexNameFilter
+	vdnsConfig.FQDNRegEx = config.RegexDomainFilter
+	vdnsConfig.NameRegEx = config.RegexNameFilter
 
-	return VegasDNS.NewVegasDNSProvider(&eipConfig, domainFilter)
+	return VegasDNS.NewVegasDNSProvider(&vdnsConfig, domainFilter)
 }
