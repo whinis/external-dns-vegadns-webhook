@@ -337,7 +337,7 @@ func (e *VegasDNSAPI) RecordAdd(rr *endpoint.Endpoint) error {
 			return nil
 		}
 
-		err := e.client.CreateRecord(e.context, domainId, rr.DNSName, value, ttl)
+		err := e.client.CreateRecord(e.context, domainId, rr.RecordType, rr.DNSName, value, ttl)
 
 		if err != nil {
 			log.Errorf("Creation of the RR %v %v  [%v]-> %v : failed! %v", rr.RecordType, rr.DNSName, ttl, value, err)

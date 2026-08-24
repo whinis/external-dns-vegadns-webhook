@@ -6,7 +6,7 @@ require (
 	github.com/caarlos0/env/v11 v11.2.2
 	github.com/go-chi/chi/v5 v5.2.2
 	github.com/sirupsen/logrus v1.9.3
-	github.com/whinis/vegadns v0.0.0-20260822041707-0eefa1df4ecf
+	github.com/whinis/vegadns v0.0.0-20260823223004-90041924850c
 	sigs.k8s.io/external-dns v0.14.2
 )
 

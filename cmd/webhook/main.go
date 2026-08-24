@@ -18,7 +18,7 @@ const banner = `
   \ V /  __/ (_| | (_| |/ /_// /\  / _\ \
    \_/ \___|\__, |\__,_/___,'\_\ \/  \__/
             |___/                           
-external-dns-VegasDNS-webhook
+external-dns-VegaDNS-webhook
  version: %s (%s)
 `
 
