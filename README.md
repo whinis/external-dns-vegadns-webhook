@@ -31,7 +31,7 @@ Note: The APi authentication requires either VEGASDNS_TOKEN/VEGASDNS_SECRET.
 
 | Environment Variable           | Default value | Required |
 |--------------------------------|---------------|----------|
-| SERVER_HOST                    | 0.0.0.0       | true     |
+| SERVER_HOST                    | localhost     | true     |
 | SERVER_PORT                    | 8888          | true     |   
 | SERVER_READ_TIMEOUT            |               | false    |
 | SERVER_WRITE_TIMEOUT           |               | false    |

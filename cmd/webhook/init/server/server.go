@@ -26,7 +26,6 @@ import (
 // - /adjustendpoints (POST): executes the AdjustEndpoints method
 func Init(config configuration.Config, p *webhook.Webhook) *http.Server {
 	r := chi.NewRouter()
-	r.Use(webhook.Health)
 	r.Get("/", p.Negotiate)
 	r.Get("/records", p.Records)
 	r.Post("/records", p.ApplyChanges)
@@ -35,6 +34,23 @@ func Init(config configuration.Config, p *webhook.Webhook) *http.Server {
 	srv := createHTTPServer(fmt.Sprintf("%s:%d", config.ServerHost, config.ServerPort), r, config.ServerReadTimeout, config.ServerWriteTimeout)
 	go func() {
 		log.Infof("starting server on addr: '%s' ", srv.Addr)
+		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			log.Errorf("can't serve on addr: '%s', error: %v", srv.Addr, err)
+		}
+	}()
+	return srv
+}
+func returnOK(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+}
+func InitExposed(config configuration.Config) *http.Server {
+	r := chi.NewRouter()
+	r.Use(webhook.Health)
+	r.Get("/", returnOK)
+
+	srv := createHTTPServer(fmt.Sprintf("%s:%d", config.ServerHostExposed, config.ServerPortExposed), r, config.ServerReadTimeout, config.ServerWriteTimeout)
+	go func() {
+		log.Infof("starting exposed server on addr: '%s' ", srv.Addr)
 		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Errorf("can't serve on addr: '%s', error: %v", srv.Addr, err)
 		}

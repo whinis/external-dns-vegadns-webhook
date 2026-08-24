@@ -9,8 +9,10 @@ import (
 
 // Config struct for configuration environmental variables
 type Config struct {
-	ServerHost           string        `env:"SERVER_HOST" envDefault:"0.0.0.0"`
+	ServerHost           string        `env:"SERVER_HOST" envDefault:"127.0.0.1"`
 	ServerPort           int           `env:"SERVER_PORT" envDefault:"8888"`
+	ServerHostExposed    string        `env:"SERVER_HOST_EXPOSED" envDefault:"0.0.0.0"`
+	ServerPortExposed    int           `env:"SERVER_PORT_EXPOSED" envDefault:"8080"`
 	ServerReadTimeout    time.Duration `env:"SERVER_READ_TIMEOUT"`
 	ServerWriteTimeout   time.Duration `env:"SERVER_WRITE_TIMEOUT"`
 	DomainFilter         []string      `env:"DOMAIN_FILTER" envDefault:""`
