@@ -22,14 +22,14 @@ const (
 )
 
 type VegasDNSConfig struct {
-	BaseURL    string `env:"VEGASDNS_URL,required" envDefault:"localhost"`
-	Token      string `env:"VEGASDNS_TOKEN,required" envDefault:""`
-	Secret     string `env:"VEGASDNS_SECRET,required" envDefault:""`
-	SSLVerify  bool   `env:"VEGASDNS_SSL_VERIFY" envDefault:"true"`
-	DryRun     bool   `env:"VEGASDNS_DRY_RUN" envDefault:"false"`
-	MaxResults int    `env:"VEGASDNS_MAX_RESULTS" envDefault:"1500"`
-	CreatePTR  bool   `env:"VEGASDNS_CREATE_PTR" envDefault:"false"`
-	DefaultTTL int    `env:"VEGASDNS_DEFAULT_TTL" envDefault:"300"`
+	BaseURL    string `env:"VEGADNS_URL,required" envDefault:"localhost"`
+	Token      string `env:"VEGADNS_TOKEN,required" envDefault:""`
+	Secret     string `env:"VEGADNS_SECRET,required" envDefault:""`
+	SSLVerify  bool   `env:"VEGADNS_SSL_VERIFY" envDefault:"true"`
+	DryRun     bool   `env:"VEGADNS_DRY_RUN" envDefault:"false"`
+	MaxResults int    `env:"VEGADNS_MAX_RESULTS" envDefault:"1500"`
+	CreatePTR  bool   `env:"VEGADNS_CREATE_PTR" envDefault:"false"`
+	DefaultTTL int    `env:"VEGADNS_DEFAULT_TTL" envDefault:"300"`
 	FQDNRegEx  string
 	NameRegEx  string
 	HTTPClient *http.Client
@@ -42,7 +42,7 @@ type VegasDNSClient interface {
 	RecordList(Zone ZoneAuth) (endpoints []*endpoint.Endpoint, _ error)
 }
 
-func NewVegasDNSAPI(config *VegasDNSConfig) (VegasDNSAPI, error) {
+func NewVegasDNSAPI(config *VegasDNSConfig, ctx context.Context) (VegasDNSAPI, error) {
 	client, err := vdapi.NewClient(config.BaseURL,
 		vdapi.WithOAuth(config.Token, config.Secret),
 		vdapi.WithHTTPClient(config.HTTPClient),
@@ -51,7 +51,8 @@ func NewVegasDNSAPI(config *VegasDNSConfig) (VegasDNSAPI, error) {
 		return VegasDNSAPI{}, fmt.Errorf("vegadns: %w", err)
 	}
 	return VegasDNSAPI{
-		client: client,
+		client:  client,
+		context: ctx,
 	}, nil
 }
 
@@ -84,8 +85,8 @@ func NewZoneAuth(zone vdapi.Domain) *ZoneAuth {
 
 // Creates a new VegasDNS provider.
 func NewVegasDNSProvider(config *VegasDNSConfig, domainFilter endpoint.DomainFilter) (*Provider, error) {
-	client, _ := NewVegasDNSAPI(config)
-	var ctx context.Context
+	ctx := context.Background()
+	client, _ := NewVegasDNSAPI(config, ctx)
 	provider := &Provider{
 		client:       &client,
 		domainFilter: domainFilter,
@@ -98,7 +99,6 @@ func NewVegasDNSProvider(config *VegasDNSConfig, domainFilter endpoint.DomainFil
 
 func (p *Provider) Zones() ([]*ZoneAuth, error) {
 	var result []*ZoneAuth
-
 	zones, err := p.client.ZonesList(p.config)
 
 	if err != nil {
@@ -118,6 +118,7 @@ func (p *Provider) Zones() ([]*ZoneAuth, error) {
 // Records gets the current records.
 func (p *Provider) Records(ctx context.Context) (endpoints []*endpoint.Endpoint, err error) {
 	log.Debug("fetching records...")
+	p.context = ctx
 	zones, err := p.Zones()
 	if err != nil {
 		return nil, fmt.Errorf("could not fetch zones: %w", err)
@@ -139,6 +140,7 @@ func (p *Provider) Records(ctx context.Context) (endpoints []*endpoint.Endpoint,
 
 // ApplyChanges applies the given changes.
 func (p *Provider) ApplyChanges(ctx context.Context, changes *plan.Changes) error {
+	p.context = ctx
 	for _, change := range changes.Delete {
 		err := p.DeleteChanges(ctx, change)
 		if err != nil {

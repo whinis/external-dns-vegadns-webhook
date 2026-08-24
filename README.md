@@ -15,15 +15,15 @@ To run the provider, you must provide the following Environment Variables:
 
 **VegasDNS Environment Variables**:
 
-| Environment Variable   | Default value | Required |
-|------------------------|---------------|----------|
-| VEGASDNS_URL           | localhost     | true     |
-| VEGASDNS_TOKEN         |               | true     |   
-| VEGASDNS_SECRET        |               | true     |
-| VEGASDNS_MAX_RESULTS   | 1500          | false    |
-| VEGASDNS_SSL_VERIFY    | true          | false    |
-| VEGASDNS_DRY_RUN       | false         | false    |
-| VEGASDNS_DEFAULT_TTL   | 300           | false    |
+| Environment Variable | Default value | Required |
+|----------------------|---------------|----------|
+| VEGADNS_URL          | localhost     | true     |
+| VEGADNS_TOKEN        |               | true     |   
+| VEGADNS_SECRET       |               | true     |
+| VEGADNS_MAX_RESULTS  | 1500          | false    |
+| VEGADNS_SSL_VERIFY   | true          | false    |
+| VEGADNS_DRY_RUN      | false         | false    |
+| VEGADNS_DEFAULT_TTL  | 300           | false    |
 
 Note: The APi authentication requires either VEGASDNS_TOKEN/VEGASDNS_SECRET.
 

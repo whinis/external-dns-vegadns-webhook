@@ -2,6 +2,7 @@ package dnsprovider
 
 import (
 	"fmt"
+	"net/http"
 	"regexp"
 	"strings"
 
@@ -52,6 +53,7 @@ func Init(config configuration.Config) (provider.Provider, error) {
 			return nil, fmt.Errorf("missing authentication credentials. access token/secret are required")
 		}
 	}
+	vdnsConfig.HTTPClient = &http.Client{}
 	vdnsConfig.FQDNRegEx = config.RegexDomainFilter
 	vdnsConfig.NameRegEx = config.RegexNameFilter
 
