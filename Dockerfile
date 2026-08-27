@@ -3,6 +3,8 @@ FROM --platform=$BUILDPLATFORM golang:1.24 AS builder
 
 ARG TARGETOS
 ARG TARGETARCH
+ARG VERSION
+ARG GITSHA
 
 WORKDIR /app
 
@@ -14,7 +16,7 @@ RUN go mod download
 COPY . ./
 
 # Build the Go binary with static linking
-RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH}  CGO_ENABLED=0 go build -a -o /app/bin/external-dns-vegadns-webhook ./cmd/webhook/main.go
+RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH}  CGO_ENABLED=0 go build -ldflags "-X main/var.Version=${VERSION} -X main/var.Gitsha=${GITSHA}" -a -o /app/bin/external-dns-vegadns-webhook ./cmd/webhook/main.go
 
 # Stage 2: Runtime stage
 FROM debian:bullseye-slim
