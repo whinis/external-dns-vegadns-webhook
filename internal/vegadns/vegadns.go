@@ -291,7 +291,8 @@ func (e *VegasDNSAPI) RecordDelete(rr *endpoint.Endpoint) error {
 		var recordID int
 		var found = false
 		for j := range rr.ProviderSpecific {
-			if rr.ProviderSpecific[j].Name == providerSpecificVegasDNSPtrRecord {
+			log.Debugf("Checking provider specific value %s", rr.ProviderSpecific[j].Name)
+			if rr.ProviderSpecific[j].Name == providerSpecificVegasDNSID {
 				rr.ProviderSpecific[j].Value = "true"
 				found = true
 			}
