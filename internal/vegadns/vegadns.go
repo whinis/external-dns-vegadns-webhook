@@ -262,11 +262,14 @@ func (e *VegasDNSAPI) RecordList(zone ZoneAuth) (endpoints []*endpoint.Endpoint,
 			if h, found := Host[rr.Name+":"+rr.RecordType]; found {
 				h.Targets = append(h.Targets, rr.Value)
 			} else {
-				Host[rr.Name+":"+rr.RecordType] = endpoint.NewEndpointWithTTL(rr.Name, endpoint.RecordTypeA, endpoint.TTL(ttl), rr.Value)
+				var newEndpoint = endpoint.NewEndpointWithTTL(rr.Name, endpoint.RecordTypeA, endpoint.TTL(ttl), rr.Value)
+				newEndpoint.WithProviderSpecific(providerSpecificVegasDNSID, strconv.Itoa(rr.RecordID))
+				Host[rr.Name+":"+rr.RecordType] = newEndpoint
 			}
 		case "TXT":
 			log.Debugf("Found TXT Record : %s -> %s", rr.Name, rr.Value)
 			tmp := endpoint.NewEndpointWithTTL(rr.Name, endpoint.RecordTypeTXT, endpoint.TTL(ttl), rr.Value)
+			tmp.WithProviderSpecific(providerSpecificVegasDNSID, strconv.Itoa(rr.RecordID))
 			endpoints = append(endpoints, tmp)
 		case "CNAME":
 			log.Debugf("Found CNAME Record : %s -> %s", rr.Name, rr.Value)
